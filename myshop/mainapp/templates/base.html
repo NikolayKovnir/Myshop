@@ -51,108 +51,18 @@
           </div>
         </div>
       </nav>
-  <div class="container pt-5 mt-5">
+  <div class="container">
       <div class="row">
           <!-- LEFT SIDE CATEGORIES-->
-          <div class="col-12 col-md-12 col-lg-3 col-xl-3">
-              <div class="card">
-                  <div class="card-header">
-                          <h4>Shop by Product</h4>
-                  </div>
-                  <div class="card-body">
-                      <ul id="cat-navi" class="nav nav-list">
-                          <li class="active nav-item"><a href="#" class="nav-link">Active category</a>
-                          </li>
-                          <li class="nav-item"><a href="#" class="nav-link">New in: Category</a>
-                          </li>
-                          <li class="nav-item"><a href="#" class="nav-link">New in: Category</a>
-                          </li>
-                          <li class="nav-item"><a href="#" class="nav-link">New in: Category</a>
-                          </li>
-                          <li class="nav-item"><a href="#" class="nav-link">New in: Category</a>
-                          </li>
-                          <li class="nav-item"><a href="#" class="nav-link">New in: Category</a>
-                          </li>
-                          <select class="form-control">
-                              <option selected="selected" value="">Choose category</option>
-                              <option value="#">Active category</option>
-                              <option value="#">New in: Category</option>
-                              <option value="#">New in: Category</option>
-                              <option value="#">New in: Category</option>
-                              <option value="#">New in: Category</option>
-                              <option value="#">New in: Category</option>
-                          </select>
-                      </ul>
-                  </div>
-              </div>
-              <div class="card d-block d-xl-none">
-                  <div class="card-header">
-                          <h4>Most Popular</h4>
-                  </div>
-                  <div class="card-body">
-                      <ul id="cat-navi2" class="nav nav-list ">
-                          <li class="active nav-item"><a href="#" class="nav-link">Active category</a>
-                          </li>
-                          <li class="nav-item"><a href="#" class="nav-link">Category title</a>
-                          </li>
-                          <li class="nav-item"><a href="#" class="nav-link">Category title</a>
-                          </li>
-                          <li class="nav-item"><a href="#" class="nav-link">Category title</a>
-                          </li>
-                          <li class="nav-item"><a href="#" class="nav-link">Category title</a>
-                          </li>
-                          <li class="nav-item"><a href="#" class="nav-link">Category title</a>
-                          </li>
-                          <li class="nav-item"><a href="#" class="nav-link">Category title</a>
-                          </li>
-                          <li class="nav-item"><a href="#" class="nav-link">Category title</a>
-                          </li>
-                          <li class="nav-item"><a href="#" class="nav-link">Category title</a>
-                          </li>
-                          <li class="nav-item"><a href="#" class="nav-link">Category title</a>
-                          </li>
-                          <li class="nav-item"><a href="#" class="nav-link">Category title</a>
-                          </li>
-                      </ul>
-                  </div>
-              </div>
-              <!-- panel OFFER-->
-              <div class="d-block d-xl-none">
-                  <div class="card text-white bg-success text-center">
-                      <div class="card-body">
-                          <p class="lead">SPECIAL OFFER DISCOUNT -20%</p>
-                      </div>
-                  </div>
-              </div>
-              <!-- / panel OFFER-->
-              <!-- panel OFFER-->
-              <div class="d-block d-xl-none">
-                  <div class="card text-white bg-success text-center">
-                      <div class="card-body">
-                          <p class="lead">SPECIAL OFFER DISCOUNT -20%</p>
-                      </div>
-                  </div>
-              </div>
-              <!-- / panel OFFER-->
-              <!-- panel OFFER-->
-              <div class="d-block d-xl-none">
-                  <div class="card text-white bg-success text-center">
-                      <div class="card-body">
-                          <p class="lead">SPECIAL OFFER DISCOUNT -20%</p>
-                      </div>
-                  </div>
-              </div>
-              <!-- / panel OFFER-->
-              <!-- panel OFFER-->
-              <div class="d-block d-xl-none">
-                  <div class="card text-white bg-success text-center">
-                      <div class="card-body">
-                          <p class="lead">SPECIAL OFFER DISCOUNT -20%</p>
-                      </div>
-                  </div>
-              </div>
-              <!-- / panel OFFER-->
+          <div class="col-lg-3 mt-5">
+            <div class="list-group">
+                {% for category in categories %}
+                <a href="{{ category.url }}" class="list-group-item">{{ category.name }} ({{ category.count }})</a>
+                 {% endfor %}
+            </div>
+
           </div>
+
           <!-- /left SIDE-->
           <!-- CONTENT SIDE-->
           <div class="col-12 col-md-12 col-lg-9 col-xl-9">
