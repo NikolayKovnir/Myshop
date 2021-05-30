@@ -3,7 +3,6 @@ from django.utils.safestring import mark_safe
 
 from mainapp.models import Smartphone
 
-
 register = template.Library()
 
 TABLE_HEAD = """
@@ -61,4 +60,3 @@ def product_spec(product):
         else:
             PRODUCT_SPEC['smartphone']['Максимальный объем SD карты'] = 'sd_volume_max'
     return mark_safe(TABLE_HEAD + get_product_spec(product, model_name) + TABLE_TAIL)
-
