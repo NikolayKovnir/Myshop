@@ -12,7 +12,7 @@ def get_models_for_count(*model_names):
 
 
 def get_product_url(obj, viewname):
-    ct_model = obj.__class__.meta.model_name
+    ct_model = obj.__class__._meta.model_name
     return reverse(viewname, kwargs={'ct_model': ct_model, 'slug': obj.slug})
 
 
@@ -95,15 +95,14 @@ class Product(models.Model):
         return self.__class__.__name__.lower()
 
 
-
 class Notebook(Product):
 
-    diagonal = models.CharField(max_length=255, verbose_name='Диаганоль')
+    diagonal = models.CharField(max_length=255, verbose_name='Диагональ')
     display_type = models.CharField(max_length=255, verbose_name='Тип дисплея')
-    processor_freq = models.CharField(max_length=255, verbose_name='частота процессора')
-    cpu = models.CharField(max_length=255, verbose_name='Оперативная память')
-    video = models.CharField(max_length=255, verbose_name='Видиокарта')
-    time_without_charge = models.CharField(max_length=255, verbose_name='время работы аккумулятора')
+    processor_freq = models.CharField(max_length=255, verbose_name='Частота процессора')
+    ram = models.CharField(max_length=255, verbose_name='Оперативная память')
+    video = models.CharField(max_length=255, verbose_name='Видеокарта')
+    time_without_charge = models.CharField(max_length=255, verbose_name='Время работы аккумулятора')
 
     def __str__(self):
         return "{} : {}".format(self.category.name, self.title)
