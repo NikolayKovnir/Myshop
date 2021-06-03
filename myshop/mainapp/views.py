@@ -1,12 +1,12 @@
 from django.shortcuts import render
 from django.contrib.contenttypes.models import ContentType
 from django.contrib import messages
-from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from django.views.generic import DetailView, View
 
 from .models import Notebook, Smartphone, Category, LatestProducts, Customer, Cart, CartProduct
 from .mixins import CategoryDetailMixin, CartMixin
+from .forms import OrderForm
 
 
 class BaseView(CartMixin, View):
@@ -25,7 +25,6 @@ class BaseView(CartMixin, View):
 
 
 class ProductDetailView(CartMixin, CategoryDetailMixin, DetailView):
-
     CT_MODEL_MODEL_CLASS = {
         'notebook': Notebook,
         'smartphone': Smartphone
@@ -48,7 +47,6 @@ class ProductDetailView(CartMixin, CategoryDetailMixin, DetailView):
 
 
 class CategoryDetailView(CartMixin, CategoryDetailMixin, DetailView):
-
     model = Category
     queryset = Category.objects.all()
     context_object_name = 'category'
@@ -92,6 +90,7 @@ class DeleteFromCartView(CartMixin, View):
         messages.add_message(request, messages.INFO, "Товар успешно удален")
         return HttpResponseRedirect('/cart/')
 
+
 class ChangeQTYView(CartMixin, View):
 
     def post(self, request, *args, **kwargs):
@@ -109,7 +108,6 @@ class ChangeQTYView(CartMixin, View):
         return HttpResponseRedirect('/cart/')
 
 
-
 class CartView(CartMixin, View):
 
     def get(self, request, *args, **kwargs):
@@ -120,3 +118,15 @@ class CartView(CartMixin, View):
         }
         return render(request, 'cart.html', context)
 
+
+class CheckoutView(CartMixin, View):
+
+    def get(self, request, *args, **kwargs):
+        categories = Category.objects.get_categories_for_left_sidebar()
+        form = OrderForm(request.POST or None)
+        context = {
+            'cart': self.cart,
+            'categories': categories,
+            'form': form
+        }
+        return render(request, 'checkout.html', context)
