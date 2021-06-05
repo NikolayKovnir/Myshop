@@ -1,5 +1,6 @@
-from django.views.generic.detail import DetailView, SingleObjectMixin
+from django.views.generic.detail import SingleObjectMixin
 from django.views.generic import View
+
 from .models import Category, Cart, Customer, Notebook, Smartphone
 
 
@@ -40,6 +41,3 @@ class CartMixin(View):
                 cart = Cart.objects.create(for_anonymous_user=True)
         self.cart = cart
         return super().dispatch(request, *args, **kwargs)
-
-
-
