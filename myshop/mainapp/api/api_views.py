@@ -24,13 +24,11 @@ class NotebookListAPIView(ListAPIView):
 
 
 class SmartphoneDetailView(RetrieveAPIView):
-
     serializer_class = SmartphoneSerializer
     queryset = Smartphone.objects.all()
     lookup_field = 'id'
 
 
 class CustomerListAPIview(ListAPIView):
-
     serializer_class = CustomerSerializer
     queryset = Customer.objects.all()
