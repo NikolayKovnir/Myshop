@@ -1,6 +1,6 @@
 from rest_framework.response import Response
 from collections import OrderedDict
-from rest_framework.generics import ListAPIView, RetrieveAPIView
+from rest_framework.generics import ListAPIView, RetrieveAPIView, ListCreateAPIView
 from rest_framework.filters import SearchFilter
 from rest_framework.pagination import PageNumberPagination
 from .serializers import CategorySerializers, SmartphoneSerializer, NotebookSerializer, CustomerSerializer
@@ -22,7 +22,7 @@ class CategoryPagination(PageNumberPagination):
         ]))
 
 
-class CategoryListAPIView(ListAPIView):
+class CategoryListAPIView(ListCreateAPIView):
     serializer_class = CategorySerializers
     pagination_class = CategoryPagination
     queryset = Category.objects.all()

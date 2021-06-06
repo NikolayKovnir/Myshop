@@ -18,11 +18,9 @@ def get_product_url(obj, viewname):
 
 
 class LatestProductsManager:
-    """функция призвана выводить несколько моделей товаров в одной,
-     для главной страницы"""
 
     @staticmethod
-    def get_product_for_main_page(*args, **kwargs):
+    def get_products_for_main_page(*args, **kwargs):
         with_respect_to = kwargs.get('with_respect_to')
         products = []
         ct_models = ContentType.objects.filter(model__in=args)
@@ -34,16 +32,18 @@ class LatestProductsManager:
             if ct_model.exists():
                 if with_respect_to in args:
                     return sorted(
-                        products, key=lambda x: x.__class__._meta.model_name.startswith(with_respect_to),
-                        reverse=True)
+                        products, key=lambda x: x.__class__._meta.model_name.startswith(with_respect_to), reverse=True
+                    )
         return products
 
 
 class LatestProducts:
+
     objects = LatestProductsManager()
 
 
 class CategoryManager(models.Manager):
+
     CATEGORY_NAME_COUNT_NAME = {
         'Ноутбуки': 'notebook__count',
         'Смартфоны': 'smartphone__count'
@@ -63,7 +63,8 @@ class CategoryManager(models.Manager):
 
 
 class Category(models.Model):
-    name = models.CharField(max_length=255, verbose_name="Имя категории")
+
+    name = models.CharField(max_length=255, verbose_name='Имя категории')
     slug = models.SlugField(unique=True)
     objects = CategoryManager()
 
@@ -75,15 +76,16 @@ class Category(models.Model):
 
 
 class Product(models.Model):
+
     class Meta:
         abstract = True
 
-    category = models.ForeignKey(Category, verbose_name="Категория", on_delete=models.CASCADE)
-    title = models.CharField(max_length=255, verbose_name="Наименование")
+    category = models.ForeignKey(Category, verbose_name='Категория', on_delete=models.CASCADE)
+    title = models.CharField(max_length=255, verbose_name='Наименование')
     slug = models.SlugField(unique=True)
-    image = models.ImageField(verbose_name="Изображение")
-    description = models.TextField(verbose_name="описание", null=True)
-    price = models.DecimalField(max_digits=9, decimal_places=2, verbose_name="цена")
+    image = models.ImageField(verbose_name='Изображение')
+    description = models.TextField(verbose_name='Описание', null=True)
+    price = models.DecimalField(max_digits=9, decimal_places=2, verbose_name='Цена')
 
     def __str__(self):
         return self.title
@@ -93,6 +95,7 @@ class Product(models.Model):
 
 
 class Notebook(Product):
+
     diagonal = models.CharField(max_length=255, verbose_name='Диагональ')
     display_type = models.CharField(max_length=255, verbose_name='Тип дисплея')
     processor_freq = models.CharField(max_length=255, verbose_name='Частота процессора')
@@ -108,17 +111,18 @@ class Notebook(Product):
 
 
 class Smartphone(Product):
-    diagonal = models.CharField(max_length=255, verbose_name='Диаганоль')
+
+    diagonal = models.CharField(max_length=255, verbose_name='Диагональ')
     display_type = models.CharField(max_length=255, verbose_name='Тип дисплея')
-    resolution = models.CharField(max_length=250, verbose_name='Разрешение Экрана')
-    accum_volume = models.CharField(max_length=255, verbose_name='Время Работы Аккумулятора')
+    resolution = models.CharField(max_length=255, verbose_name='Разрешение экрана')
+    accum_volume = models.CharField(max_length=255, verbose_name='Объем батареи')
     ram = models.CharField(max_length=255, verbose_name='Оперативная память')
-    sd = models.BooleanField(default=True, verbose_name='наличие SD карты')
+    sd = models.BooleanField(default=True, verbose_name='Наличие SD карты')
     sd_volume_max = models.CharField(
-        max_length=250, null=True, blank=True, verbose_name='Максимальный Обьем встроеной памяти'
+        max_length=255, null=True, blank=True, verbose_name='Максимальный объем встраивамой памяти'
     )
-    main_cam_mp = models.CharField(max_length=250, verbose_name='Главная камера')
-    frontal_cam_mp = models.CharField(max_length=250, verbose_name='Фронтальная камера')
+    main_cam_mp = models.CharField(max_length=255, verbose_name='Главная камера')
+    frontal_cam_mp = models.CharField(max_length=255, verbose_name='Фронтальная камера')
 
     def __str__(self):
         return "{} : {}".format(self.category.name, self.title)
@@ -128,6 +132,7 @@ class Smartphone(Product):
 
 
 class CartProduct(models.Model):
+
     user = models.ForeignKey('Customer', verbose_name='Покупатель', on_delete=models.CASCADE)
     cart = models.ForeignKey('Cart', verbose_name='Корзина', on_delete=models.CASCADE, related_name='related_products')
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
@@ -145,6 +150,7 @@ class CartProduct(models.Model):
 
 
 class Cart(models.Model):
+
     owner = models.ForeignKey('Customer', null=True, verbose_name='Владелец', on_delete=models.CASCADE)
     products = models.ManyToManyField(CartProduct, blank=True, related_name='related_cart')
     total_products = models.PositiveIntegerField(default=0)
@@ -157,9 +163,10 @@ class Cart(models.Model):
 
 
 class Customer(models.Model):
+
     user = models.ForeignKey(User, verbose_name='Пользователь', on_delete=models.CASCADE)
-    phone = models.CharField(max_length=20, verbose_name='номер телефона', null=True, blank=True)
-    adres = models.CharField(max_length=255, verbose_name='адрес', null=True, blank=True)
+    phone = models.CharField(max_length=20, verbose_name='Номер телефона', null=True, blank=True)
+    address = models.CharField(max_length=255, verbose_name='Адрес', null=True, blank=True)
     orders = models.ManyToManyField('Order', verbose_name='Заказы покупателя', related_name='related_order')
 
     def __str__(self):
@@ -167,9 +174,10 @@ class Customer(models.Model):
 
 
 class Order(models.Model):
+
     STATUS_NEW = 'new'
     STATUS_IN_PROGRESS = 'in_progress'
-    STATUS_READY = 'ready'
+    STATUS_READY = 'is_ready'
     STATUS_COMPLETED = 'completed'
 
     BUYING_TYPE_SELF = 'self'
@@ -187,14 +195,12 @@ class Order(models.Model):
         (BUYING_TYPE_DELIVERY, 'Доставка')
     )
 
-    customer = models.ForeignKey(
-        Customer, verbose_name='Покупатель', related_name='related_orders', on_delete=models.CASCADE
-    )
+    customer = models.ForeignKey(Customer, verbose_name='Покупатель', related_name='related_orders', on_delete=models.CASCADE)
     first_name = models.CharField(max_length=255, verbose_name='Имя')
     last_name = models.CharField(max_length=255, verbose_name='Фамилия')
     phone = models.CharField(max_length=20, verbose_name='Телефон')
     cart = models.ForeignKey(Cart, verbose_name='Корзина', on_delete=models.CASCADE, null=True, blank=True)
-    address = models.CharField(max_length=1024, verbose_name='Адресс', null=True, blank=True)
+    address = models.CharField(max_length=1024, verbose_name='Адрес', null=True, blank=True)
     status = models.CharField(
         max_length=100,
         verbose_name='Статус заказ',
