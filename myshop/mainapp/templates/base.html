@@ -20,7 +20,6 @@
         padding-top: 56px;
       }
 
-
 </style>
 <body>
 
@@ -47,9 +46,6 @@
         <!-- LEFT SIDE CATEGORIES-->
         <div class="col-lg-3 mt-5">
             <div class="list-group">
-                {% for category in categories %}
-                <a href="{{ category.url }}" class="list-group-item">{{ category.name }} ({{ category.count }})</a>
-                {% endfor %}
             </div>
 
         </div>
@@ -114,7 +110,7 @@
 <!-- /.container -->
 
 <!-- Footer -->
-<footer class="py-5 bg-dark">
+<footer class="py-2 bg-dark">
     <div class="container">
         <p class="m-0 text-center text-white">KovnirNikolay 2021 DjangoTutorial</p>
     </div>
