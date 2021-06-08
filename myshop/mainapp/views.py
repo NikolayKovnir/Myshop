@@ -82,7 +82,7 @@ class DeleteFromCartView(CartMixin, View):
 class ChangeQTYView(CartMixin, View):
 
     def post(self, request, *args, **kwargs):
-        product_slug = kwargs.get('ct_model'), kwargs.get('slug')
+        product_slug = kwargs.get('slug')
         product = Product.objects.get(slug=product_slug)
         cart_product = CartProduct.objects.get(
             user=self.cart.owner, cart=self.cart, product=product
